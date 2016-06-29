@@ -18,7 +18,7 @@ import static com.andela.gkuti.task2.Constants.EMAIL_COLUMN;
 import static com.andela.gkuti.task2.Constants.NAME_COLUMN;
 import static com.andela.gkuti.task2.Constants.PHONE_COLUMN;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ContactCallback {
     private ArrayList<Contact> contacts;
     private ContactStore contactStore;
     private ContactAdapter contactAdapter;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AddDialog addDialog = new AddDialog();
-                addDialog.setCallback(contactCallback);
+                addDialog.setCallback(MainActivity.this);
                 addDialog.show(getSupportFragmentManager(), "Contact");
             }
         });
@@ -86,11 +86,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private ContactCallback contactCallback = new ContactCallback() {
-        @Override
-        public void onContactAdded() {
-            getContacts();
-            contactAdapter.notifyDataSetChanged();
-        }
-    };
+    @Override
+    public void onContactAdded() {
+        getContacts();
+        contactAdapter.notifyDataSetChanged();
+    }
 }
